@@ -319,7 +319,7 @@ export default function AdminCmsApp() {
               value={merchForm.name}
               onChange={(v) => setMerchForm({ ...merchForm, name: v })}
               required
-            />
+            /> 
             <InputField
               label="Category"
               value={merchForm.category}
