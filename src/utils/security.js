@@ -1,33 +1,27 @@
 export function sanitizeUrl(rawUrl) {
   if (!rawUrl || typeof rawUrl !== "string") return "";
-  const trimmed = rawUrl.trim();
+  let trimmed = rawUrl.trim();
   if (!trimmed) return "";
 
-  const normalized =
-    trimmed.startsWith("http://") || trimmed.startsWith("https://")
-      ? trimmed
-      : `https://${trimmed}`;
+  // Tambahkan https:// otomatis jika user hanya menulis domain (mis. store.tmlg.band/...)
+  if (!/^https?:\/\//i.test(trimmed) && !/^mailto:/i.test(trimmed)) {
+    trimmed = "https://" + trimmed;
+  }
 
   try {
-    const parsed = new URL(normalized);
-    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-      return parsed.href;
+    const parsed = new URL(trimmed);
+    if (["http:", "https:", "mailto:"].includes(parsed.protocol)) {
+      return parsed.toString();
     }
-    return "";
   } catch {
     return "";
   }
+  return "";
 }
 
-export function sanitizeSheetCell(value) {
+export function sanitizeCell(value) {
   if (value === null || value === undefined) return "";
-  const str = String(value)
-    .replace(/[\u0000-\u001F\u007F]/g, " ")
-    .trim()
-    .slice(0, 500);
-
-  if (/^[=+\-@]/.test(str)) {
-    return `'${str}`;
-  }
-  return str;
+  const str = String(value).trim().slice(0, 1500);
+  // Cegah formula injection di spreadsheet (=, +, -, @)
+  return /^[=+\-@]/.test(str) ? `'${str}` : str;
 }
