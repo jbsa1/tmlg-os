@@ -3,29 +3,25 @@ import { BAND_CONFIG } from "../config/bandConfig";
 
 export default function TopBar() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 h-9 px-4 flex items-center justify-between bg-[#12111a]/85 backdrop-blur-md border-b border-[#7c1d2e]/50 select-none">
+    <header className="fixed top-0 left-0 right-0 z-50 h-9 px-3.5 flex items-center bg-[#9d94a3]/95 backdrop-blur-sm border-b-2 border-[#6b1929] shadow-sm select-none">
       <div className="flex items-center gap-2.5">
+        {/* Monogram Logo TMLG Merah Tua */}
         <svg
-          width="18"
+          width="22"
           height="18"
-          viewBox="0 0 32 32"
+          viewBox="0 0 28 22"
           fill="none"
-          className="text-[#b3263e] shrink-0"
+          className="shrink-0"
           aria-hidden="true"
         >
           <path
-            d="M16 2L28 16L16 30L4 16L16 2Z"
-            stroke="currentColor"
-            strokeWidth="2.2"
-          />
-          <path
-            d="M10 12H22M16 12V24M12 18L16 14L20 18"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
+            d="M2 3H12M7 3V19M13 19V3L18 11L23 3V19M25 3V19H27"
+            stroke="#7d172a"
+            strokeWidth="2.4"
+            strokeLinecap="square"
           />
         </svg>
-        <span className="font-mono text-xs sm:text-sm font-bold tracking-widest text-stone-200">
+        <span className="font-mono text-sm font-bold tracking-wide text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.75)]">
           {BAND_CONFIG.osTitle}
         </span>
       </div>

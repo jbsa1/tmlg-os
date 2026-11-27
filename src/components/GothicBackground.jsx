@@ -3,85 +3,104 @@ import React from "react";
 export default function GothicBackground() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none">
-      {/* Lapisan Langit Kabut Senja */}
-      <div className="absolute inset-0 dreamy-gothic-sky" />
+      {/* Langit Kabut Senja */}
+      <div className="absolute inset-0 tmlg-mist-wallpaper" />
 
-      {/* Pendar Bulan Purnama di Balik Kabut */}
-      <div
-        className="absolute top-[12%] right-[16%] w-44 h-44 sm:w-64 sm:h-64 rounded-full opacity-45 blur-md"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(246,232,238,0.85) 0%, rgba(196,158,182,0.35) 45%, transparent 72%)",
-        }}
-      />
-
-      {/* Lapisan Kabut Melayang */}
-      <div className="mist-layer mist-1" />
-      <div className="mist-layer mist-2" />
-
-      {/* Siluet Pepohonan Gotik & Reruntuhan Katedral di Bagian Bawah */}
+      {/* Siluet Menara Katedral Gotik di Tengah Kejauhan */}
       <svg
-        viewBox="0 0 1440 360"
-        preserveAspectRatio="none"
-        className="absolute bottom-0 left-0 w-full h-44 sm:h-64 opacity-85"
+        viewBox="0 0 1440 600"
+        preserveAspectRatio="xMidYMax slice"
+        className="absolute bottom-0 left-0 w-full h-[78vh] opacity-55"
       >
         <defs>
-          <linearGradient id="forestFade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#1b1626" stopOpacity="0.45" />
-            <stop offset="100%" stopColor="#0d0b12" stopOpacity="0.98" />
+          <linearGradient id="cathedralMist" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#7b738f" stopOpacity="0.25" />
+            <stop offset="65%" stopColor="#776c87" stopOpacity="0.72" />
+            <stop offset="100%" stopColor="#5d526b" stopOpacity="0.95" />
           </linearGradient>
         </defs>
-        {/* Siluet Bukit & Kabut Jauh */}
+
+        {/* Puncak menara katedral kembar di cakrawala */}
         <path
-          d="M0,260 Q240,210 480,250 T960,235 T1440,255 L1440,360 L0,360 Z"
-          fill="#221c2e"
-          opacity="0.7"
-        />
-        {/* Siluet Pohon Cemara Gotik & Ranting */}
-        <path
-          d="M0,360 L0,210 L25,250 L45,165 L70,245 L95,190 L120,260 L155,140 L185,245 L210,195 L240,265 L285,175 L315,255 L350,210 L390,270 L435,155 L465,245 L505,195 L540,265 L590,220 L635,170 L665,250 L710,205 L750,270 L800,150 L835,245 L875,185 L915,260 L965,200 L1010,265 L1055,145 L1090,245 L1130,190 L1170,265 L1220,175 L1255,250 L1295,185 L1335,255 L1380,160 L1415,245 L1440,215 L1440,360 Z"
-          fill="url(#forestFade)"
+          d="M0,600 L0,470 Q180,445 360,468 T720,455 L745,455 L765,330 L772,240 L779,330 L795,435 L822,295 L830,175 L838,295 L858,425 L888,265 L897,135 L906,265 L932,435 L955,345 L962,275 L969,345 L990,450 Q1210,435 1440,465 L1440,600 Z"
+          fill="url(#cathedralMist)"
         />
       </svg>
 
-      {/* Bingkai Filigree Crimson Klasik di Keempat Sudut Layar */}
-      <div className="fixed inset-2.5 top-11 border border-[#8f2438]/40 rounded-lg">
-        <CornerOrnament className="top-0 left-0" />
-        <CornerOrnament className="top-0 right-0 scale-x-[-1]" />
-        <CornerOrnament className="bottom-0 left-0 scale-y-[-1]" />
-        <CornerOrnament className="bottom-0 right-0 scale-[-1]" />
-      </div>
+      {/* Siluet Ranting Pohon Gotik Merambat dari Kiri & Kanan */}
+      <svg
+        viewBox="0 0 1440 800"
+        preserveAspectRatio="none"
+        className="absolute inset-0 w-full h-full opacity-75"
+      >
+        {/* Cabang Kiri */}
+        <path
+          d="M-10,120 Q80,150 145,210 L185,180 M145,210 Q210,260 265,330 L310,305 M220,285 L195,340 M-10,420 Q110,440 210,515 L265,485 M160,480 L130,545 M-10,760 Q140,680 295,675 L355,630 M240,680 L285,730 M390,795 Q440,720 495,690 L535,715 M465,710 L450,655"
+          stroke="#463c52"
+          strokeWidth="4.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        {/* Ranting halus kiri */}
+        <path
+          d="M185,180 L215,155 M310,305 L345,285 M265,485 L305,465 M355,630 L395,605 M495,690 L530,655"
+          stroke="#463c52"
+          strokeWidth="2"
+          strokeLinecap="round"
+          fill="none"
+        />
 
-      {/* Tekstur Analog Film Grain */}
-      <div className="absolute inset-0 film-grain opacity-20" />
+        {/* Cabang Kanan */}
+        <path
+          d="M1450,150 Q1350,190 1280,260 L1235,230 M1280,260 Q1210,320 1165,390 L1120,365 M1450,480 Q1330,500 1245,570 L1195,540 M1450,740 Q1300,670 1140,670 L1085,625 M1210,675 L1165,730"
+          stroke="#463c52"
+          strokeWidth="4.5"
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M1235,230 L1200,205 M1120,365 L1085,345 M1195,540 L1155,515 M1085,625 L1045,600"
+          stroke="#463c52"
+          strokeWidth="2"
+          strokeLinecap="round"
+          fill="none"
+        />
+      </svg>
+
+      {/* Bingkai Luar Crimson & Ukiran Sulur Sudut Layar */}
+      <div className="fixed inset-1.5 top-10 border-2 border-[#691727]/85 pointer-events-none">
+        <ScreenCorner className="top-0 left-0" />
+        <ScreenCorner className="top-0 right-0 scale-x-[-1]" />
+        <ScreenCorner className="bottom-0 left-0 scale-y-[-1]" />
+        <ScreenCorner className="bottom-0 right-0 scale-[-1]" />
+      </div>
     </div>
   );
 }
 
-function CornerOrnament({ className = "" }) {
+function ScreenCorner({ className = "" }) {
   return (
     <svg
-      width="44"
-      height="44"
-      viewBox="0 0 44 44"
+      width="68"
+      height="68"
+      viewBox="0 0 68 68"
       fill="none"
-      className={`absolute text-[#a82840]/75 ${className}`}
+      className={`absolute text-[#5e1422] ${className}`}
     >
       <path
-        d="M2 38V6C2 3.79086 3.79086 2 6 2H38"
+        d="M2 58V10C2 5.58172 5.58172 2 10 2H58"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="2.5"
       />
       <path
-        d="M7 28V11C7 8.79086 8.79086 7 11 7H28"
+        d="M8 44C8 24 24 8 44 8M14 34C14 21 21 14 34 14"
         stroke="currentColor"
-        strokeWidth="1"
-        strokeDasharray="2 2"
+        strokeWidth="1.6"
       />
       <path
-        d="M12 12L18 6M12 12L6 18M12 12L17 17"
+        d="M12 12C18 18 22 10 28 16M12 12C18 18 10 22 16 28"
         stroke="currentColor"
-        strokeWidth="1.2"
+        strokeWidth="1.4"
       />
     </svg>
   );

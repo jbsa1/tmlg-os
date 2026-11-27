@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ShoppingBag, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { BAND_CONFIG } from "../../config/bandConfig";
 import { fetchSheetTab } from "../../utils/sheetsParser";
 import { sanitizeUrl } from "../../utils/security";
@@ -28,70 +28,65 @@ export default function MerchStoreApp() {
   };
 
   if (loading) {
-    return <p className="font-mono text-xs text-stone-400">Memuat katalog merch...</p>;
+    return <p className="font-mono text-xs text-[#261e28]">Memuat katalog merch...</p>;
   }
 
   return (
-    <div className="space-y-3 font-mono">
-      <div className="flex items-center justify-between border-b border-white/10 pb-2">
-        <span className="text-xs text-stone-400 flex items-center gap-1.5">
-          <ShoppingBag className="w-3.5 h-3.5 text-[#d4445c]" />
-          OFFICIAL MERCHANDISE
-        </span>
-      </div>
-
+    <div className="space-y-3">
       {items.length === 0 ? (
-        <p className="text-xs text-stone-400 py-6 text-center">
+        <p className="font-mono text-xs text-center py-6 bg-[#cfc5cf] border border-[#6e5c6e]">
           Katalog merch sedang diperbarui.
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="space-y-3">
           {items.map((item, idx) => {
             const isOut =
               Number(item["Stock Qty"]) <= 0 ||
               (item["Restock Status"] || "").toLowerCase().includes("sold");
-            const safeImgOrLink = sanitizeUrl(item["Webstore Link"]);
-            const looksLikeImage = /\.(jpg|jpeg|png|webp|gif)(\?.*)?$/i.test(
-              safeImgOrLink
-            );
+            const safeImg = sanitizeUrl(item["Webstore Link"]);
+            const looksLikeImage = /\.(jpg|jpeg|png|webp|gif)(\?.*)?$/i.test(safeImg);
 
             return (
               <div
                 key={item["Item Code"] || idx}
-                className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col justify-between gap-3"
+                className="p-3 bg-[#cfc5cf] border-2 border-[#5c4a5c] flex flex-col sm:flex-row items-center justify-between gap-4"
               >
-                <div className="space-y-1.5">
-                  {looksLikeImage && (
+                {/* Preview Gambar atau Ilustrasi Kaos TMLG */}
+                <div className="w-28 h-28 shrink-0 bg-[#9b8e9c] border border-[#5c4a5c] flex items-center justify-center overflow-hidden">
+                  {looksLikeImage ? (
                     <img
-                      src={safeImgOrLink}
+                      src={safeImg}
                       alt={item["Item Name"]}
-                      className="w-full h-36 object-cover rounded-lg border border-white/10 mb-2"
+                      className="w-full h-full object-cover"
                     />
+                  ) : (
+                    <div className="text-center p-2">
+                      <span className="font-serif font-bold text-sm text-[#751a2b] block">
+                        TMLG
+                      </span>
+                      <span className="font-mono text-[9px] text-[#241c26]">
+                        {item["Category"] || "MERCH"}
+                      </span>
+                    </div>
                   )}
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-[#7c1d2e]/30 text-[#f28598]">
-                      {item["Category"] || "Merch"}
-                    </span>
-                    <span className="text-[10px] text-stone-400">
-                      {item["Restock Status"] || (isOut ? "Sold Out" : "In Stock")}
-                    </span>
-                  </div>
+                </div>
 
-                  <h4 className="text-sm font-bold text-white">
+                {/* Detail & Tombol Order via WA */}
+                <div className="flex-1 text-center sm:text-left space-y-1">
+                  <h4 className="font-serif text-base font-bold text-[#1c151e]">
                     {item["Item Name"]}
                   </h4>
-                  <p className="text-[11px] text-stone-400">
+                  <p className="font-mono text-xs text-[#3b303c]">
                     {item["Variant / Specifications"]}
+                  </p>
+                  <p className="font-mono text-xs font-bold text-[#751a2b]">
+                    {item["Unit Price"]} • {item["Restock Status"] || "In Stock"}
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
-                  <span className="text-xs font-bold text-stone-100">
-                    {item["Unit Price"]}
-                  </span>
-
+                <div className="shrink-0">
                   {isOut ? (
-                    <span className="px-3 py-1.5 rounded bg-stone-800 text-stone-500 text-xs cursor-not-allowed">
+                    <span className="px-3 py-1.5 bg-stone-500 text-white font-mono text-xs">
                       Sold Out
                     </span>
                   ) : (
@@ -99,9 +94,12 @@ export default function MerchStoreApp() {
                       href={buildWhatsappLink(item)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-emerald-800 hover:bg-emerald-700 text-white text-xs transition"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#4a414c] hover:bg-[#322b33] text-white border border-[#1d1720] font-mono text-xs shadow"
                     >
-                      <MessageCircle className="w-3.5 h-3.5" /> Order via WA
+                      Order via WA
+                      <span className="w-4 h-4 rounded-full bg-[#25D366] flex items-center justify-center text-white">
+                        <MessageCircle className="w-3 h-3 fill-current" />
+                      </span>
                     </a>
                   )}
                 </div>

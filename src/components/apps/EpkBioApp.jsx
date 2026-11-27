@@ -7,38 +7,35 @@ export default function EpkBioApp() {
   const epkLink = sanitizeUrl(BAND_CONFIG.bio.epkDriveUrl);
 
   return (
-    <div className="space-y-4 font-mono text-xs text-stone-300 leading-relaxed">
-      <div className="border-b border-white/10 pb-3">
-        <h3 className="font-serif text-lg font-bold text-white tracking-wide">
-          {BAND_CONFIG.bandName}
-        </h3>
-        <p className="text-[#d4445c]">{BAND_CONFIG.tagline}</p>
+    <div className="bg-[#cfc5cf] border-2 border-[#5c4a5c] p-4 space-y-3 text-[#1c151e]">
+      <div className="border-b border-[#8f7d8f] pb-2">
+        <h3 className="font-serif text-xl font-bold">{BAND_CONFIG.bandName}</h3>
+        <p className="font-mono text-xs text-[#751a2b] font-bold">
+          {BAND_CONFIG.tagline}
+        </p>
       </div>
 
-      <div className="space-y-2.5">
+      <div className="space-y-2 font-mono text-xs leading-relaxed">
         {BAND_CONFIG.bio.paragraphs.map((text, idx) => (
           <p key={idx}>{text}</p>
         ))}
       </div>
 
-      <div className="pt-3 border-t border-white/10 flex flex-wrap items-center gap-3">
+      <div className="pt-2 border-t border-[#8f7d8f] flex flex-wrap gap-2 font-mono text-xs">
         <a
-          href={`mailto:${BAND_CONFIG.bookingEmail}?subject=${encodeURIComponent(
-            "Booking / Press Inquiry - The Mary's Lost Gaze"
-          )}`}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-[#7c1d2e] hover:bg-[#9c253a] text-white transition"
+          href={`mailto:${BAND_CONFIG.bookingEmail}`}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#751a2b] hover:bg-[#912136] text-white"
         >
           <Mail className="w-3.5 h-3.5" /> {BAND_CONFIG.bookingEmail}
         </a>
-
         {epkLink && (
           <a
             href={epkLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-white/10 hover:bg-white/15 text-stone-200 transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 win95-btn text-[#1c151e] font-bold"
           >
-            <FileDown className="w-3.5 h-3.5" /> Download Press Kit / Rider
+            <FileDown className="w-3.5 h-3.5" /> Download Press Kit
           </a>
         )}
       </div>

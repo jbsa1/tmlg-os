@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, MapPin, Ticket } from "lucide-react";
 import { fetchSheetTab } from "../../utils/sheetsParser";
 import { sanitizeUrl } from "../../utils/security";
 
@@ -14,91 +13,53 @@ export default function TourDatesApp() {
       .finally(() => setLoading(false));
   }, []);
 
-  const getStatusBadge = (status = "") => {
-    const lower = status.toLowerCase();
-    if (lower.includes("sold")) return "bg-red-950 text-red-300 border-red-700/60";
-    if (lower.includes("fast")) return "bg-amber-950 text-amber-300 border-amber-700/60";
-    if (lower.includes("cancel")) return "bg-stone-800 text-stone-400 border-stone-600";
-    return "bg-emerald-950 text-emerald-300 border-emerald-700/60";
-  };
-
-  if (loading) {
-    return <p className="font-mono text-xs text-stone-400">Memuat jadwal gigs...</p>;
-  }
-
   return (
-    <div className="space-y-3 font-mono">
-      <div className="flex items-center justify-between border-b border-white/10 pb-2">
-        <span className="text-xs text-stone-400">
-          LIVE SCHEDULE & APPEARANCES ({gigs.length})
-        </span>
-      </div>
+    <div className="bg-[#cfc5cf] border-2 border-[#5c4a5c] p-3.5 text-[#1c151e]">
+      <h3 className="font-serif text-2xl font-bold tracking-tight text-[#1c151e] border-b border-[#8f7d8f] pb-2 mb-3">
+        Upcoming Gigs
+      </h3>
 
-      {gigs.length === 0 ? (
-        <p className="text-xs text-stone-400 py-6 text-center">
+      {loading ? (
+        <p className="font-mono text-xs py-4">Memuat jadwal gigs...</p>
+      ) : gigs.length === 0 ? (
+        <p className="font-mono text-xs py-4 text-center">
           Belum ada jadwal manggung yang dipublikasikan.
         </p>
       ) : (
         <div className="space-y-2.5">
           {gigs.map((gig, idx) => {
             const ticketUrl = sanitizeUrl(gig["Ticket / RSVP Link"]);
+            const badgeText = (gig["Ticket Status"] || "ON TOUR").toUpperCase();
+
             return (
               <div
                 key={idx}
-                className="p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#7c1d2e]/70 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#9e8e9e]/70 last:border-b-0"
               >
-                <div className="space-y-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1 text-xs font-bold text-[#f0657d]">
-                      <Calendar className="w-3.5 h-3.5" /> {gig["Date"]}
-                    </span>
-                    {gig["Stage Time"] && (
-                      <span className="text-[11px] text-stone-400">
-                        • {gig["Stage Time"]}
-                      </span>
-                    )}
-                    <span
-                      className={`text-[10px] px-2 py-0.5 rounded border ${getStatusBadge(
-                        gig["Ticket Status"]
-                      )}`}
-                    >
-                      {gig["Ticket Status"] || "Available"}
-                    </span>
-                  </div>
-
-                  <h4 className="text-sm font-bold text-white">
-                    {gig["Tour / Event"]}
-                  </h4>
-
-                  <p className="text-xs text-stone-300 flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                <div>
+                  <p className="font-gothic-title text-xl leading-snug text-[#1a131c]">
                     {gig["Venue"]} — {gig["City & Country"]}
                   </p>
-
-                  {gig["Supporting Acts"] && (
-                    <p className="text-[11px] text-stone-400">
-                      w/ {gig["Supporting Acts"]}
-                    </p>
-                  )}
+                  <p className="font-mono text-[11px] text-[#3d313f]">
+                    {gig["Date"]} • {gig["Tour / Event"]}
+                    {gig["Stage Time"] ? ` (${gig["Stage Time"]})` : ""}
+                  </p>
                 </div>
 
-                <div className="flex sm:flex-col items-end justify-between gap-2 shrink-0">
-                  {gig["Ticket Price"] && (
-                    <span className="text-xs font-bold text-stone-200">
-                      {Number(gig["Ticket Price"]) === 0
-                        ? "FREE ENTRY"
-                        : `HTM: ${gig["Ticket Price"]}`}
-                    </span>
-                  )}
-                  {ticketUrl && (
+                <div className="flex items-center gap-2 shrink-0">
+                  {ticketUrl ? (
                     <a
                       href={ticketUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#7c1d2e] hover:bg-[#9e2238] text-white text-xs transition"
+                      className="px-2.5 py-1 rounded bg-[#821d30] hover:bg-[#a1243c] text-white font-mono text-[10px] font-bold tracking-wider shadow-sm"
                     >
-                      <Ticket className="w-3.5 h-3.5" /> Info / Tiket
+                      {badgeText}
                     </a>
+                  ) : (
+                    <span className="px-2.5 py-1 rounded bg-[#821d30] text-white font-mono text-[10px] font-bold tracking-wider shadow-sm">
+                      {badgeText}
+                    </span>
                   )}
                 </div>
               </div>

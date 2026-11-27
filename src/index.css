@@ -2,72 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-.dreamy-gothic-sky {
-  background-color: #1c1826;
+.font-gothic-title {
+  font-family: "UnifrakturMaguntia", "Cinzel", Georgia, serif;
+}
+
+/* Langit Kabut Senja Lavender - Faded Rose - Slate seperti mockup */
+.tmlg-mist-wallpaper {
+  background-color: #9395b0;
   background-image:
-    radial-gradient(ellipse at 78% 18%, rgba(214, 174, 194, 0.34), transparent 45%),
-    radial-gradient(ellipse at 22% 28%, rgba(132, 126, 168, 0.35), transparent 52%),
-    radial-gradient(ellipse at 50% 78%, rgba(124, 29, 46, 0.36), transparent 58%),
-    linear-gradient(180deg, #242136 0%, #3c324a 44%, #2a2030 78%, #131019 100%);
+    radial-gradient(ellipse at 52% 48%, rgba(226, 203, 212, 0.72) 0%, rgba(182, 165, 188, 0.38) 42%, transparent 72%),
+    radial-gradient(ellipse at 18% 22%, rgba(122, 134, 168, 0.55) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 25%, rgba(118, 128, 162, 0.55) 0%, transparent 55%),
+    linear-gradient(180deg, #7f87a6 0%, #9b97b0 38%, #bfa8b4 66%, #8e8096 100%);
 }
 
-@keyframes driftMist {
-  0% {
-    transform: translateX(-4%) scale(1.04);
-  }
-  50% {
-    transform: translateX(4%) scale(1.08);
-  }
-  100% {
-    transform: translateX(-4%) scale(1.04);
-  }
+/* Efek bevel tombol Windows 95 klasik */
+.win95-btn {
+  background: #b8adb8;
+  border-top: 1.5px solid #e6dde6;
+  border-left: 1.5px solid #e6dde6;
+  border-right: 1.5px solid #4a3d49;
+  border-bottom: 1.5px solid #4a3d49;
+}
+.win95-btn:active {
+  border-top: 1.5px solid #4a3d49;
+  border-left: 1.5px solid #4a3d49;
+  border-right: 1.5px solid #e6dde6;
+  border-bottom: 1.5px solid #e6dde6;
 }
 
-.mist-layer {
-  position: absolute;
-  inset: -10%;
-  background: radial-gradient(
-    ellipse at 50% 60%,
-    rgba(218, 198, 214, 0.14) 0%,
-    rgba(142, 128, 166, 0.08) 45%,
-    transparent 75%
-  );
-  filter: blur(28px);
-  animation: driftMist 18s ease-in-out infinite;
-}
-
-.mist-2 {
-  animation-duration: 26s;
-  animation-direction: reverse;
-  opacity: 0.75;
-}
-
-.film-grain {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 0);
-  background-size: 3px 3px;
+/* Outline teks ikon desktop agar terbaca jelas di atas kabut */
+.icon-label-shadow {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 0 4px rgba(0, 0, 0, 0.85),
+    1px 1px 0 rgba(0, 0, 0, 0.9);
 }
 
 .crt-scanlines {
   background: linear-gradient(
     rgba(18, 16, 16, 0) 50%,
-    rgba(0, 0, 0, 0.36) 50%
+    rgba(0, 0, 0, 0.28) 50%
   );
-  background-size: 100% 4px;
+  background-size: 100% 3px;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 14px;
+  height: 14px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 14, 22, 0.7);
+  background: #9f94a0;
+  border-left: 1px solid #594654;
 }
 ::-webkit-scrollbar-thumb {
-  background: #6b1b2b;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #9c273e;
+  background: #b9aeb9;
+  border: 1.5px solid;
+  border-color: #e6dde6 #4a3d49 #4a3d49 #e6dde6;
 }
 
 /* Sembunyikan badge bawaan Netlify */
