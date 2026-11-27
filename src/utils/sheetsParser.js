@@ -1,11 +1,59 @@
-import Papa from "papaparse";
 import { BAND_CONFIG } from "../config/bandConfig";
+
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    const next = text[i + 1];
+
+    if (inQuotes) {
+      if (ch === '"' && next === '"') {
+        cell += '"';
+        i++;
+      } else if (ch === '"') {
+        inQuotes = false;
+      } else {
+        cell += ch;
+      }
+    } else {
+      if (ch === '"') {
+        inQuotes = true;
+      } else if (ch === ",") {
+        row.push(cell);
+        cell = "";
+      } else if (ch === "\r" && next === "\n") {
+        row.push(cell);
+        rows.push(row);
+        row = [];
+        cell = "";
+        i++;
+      } else if (ch === "\n" || ch === "\r") {
+        row.push(cell);
+        rows.push(row);
+        row = [];
+        cell = "";
+      } else {
+        cell += ch;
+      }
+    }
+  }
+
+  if (cell.length > 0 || row.length > 0) {
+    row.push(cell);
+    rows.push(row);
+  }
+
+  return rows.filter((r) => r.some((c) => c.trim() !== ""));
+}
 
 export async function fetchSheetTab(tabName) {
   const sheetId = BAND_CONFIG.sheets.spreadsheetId;
   if (!sheetId) throw new Error("Spreadsheet ID belum diatur");
 
-  // Tambahkan cache-buster (_t) agar perubahan di Google Sheets lebih cepat terbaca
   const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(
     tabName
   )}&_t=${Math.floor(Date.now() / 60000)}`;
@@ -16,14 +64,9 @@ export async function fetchSheetTab(tabName) {
   }
 
   const csvText = await response.text();
-  const parsed = Papa.parse(csvText, {
-    skipEmptyLines: true,
-  });
-
-  const rows = parsed.data || [];
+  const rows = parseCsv(csvText);
   if (rows.length < 2) return [];
 
-  // Cari baris header (bisa di baris 0 untuk tab Bio, atau baris 3 untuk tab dengan banner judul)
   const knownHeaders = [
     "Release ID",
     "Date",
@@ -35,7 +78,7 @@ export async function fetchSheetTab(tabName) {
   ];
 
   let headerRowIndex = rows.findIndex((r) =>
-    r.some((cell) => knownHeaders.includes(String(cell).trim()))
+    r.some((c) => knownHeaders.includes(String(c).trim()))
   );
 
   if (headerRowIndex === -1) {
@@ -46,18 +89,17 @@ export async function fetchSheetTab(tabName) {
   const dataRows = rows.slice(headerRowIndex + 1);
 
   return dataRows
-    .map((row) => {
+    .map((r) => {
       const obj = {};
       headers.forEach((header, idx) => {
         if (header) {
-          obj[header] = row[idx] !== undefined ? String(row[idx]).trim() : "";
+          obj[header] = r[idx] !== undefined ? String(r[idx]).trim() : "";
         }
       });
       return obj;
     })
     .filter((obj) => {
       const values = Object.values(obj).filter(Boolean);
-      // Abaikan baris kosong atau baris "Total" di Merch_Store
       if (values.length === 0) return false;
       if (obj["Item Code"] === "Total") return false;
       return true;
