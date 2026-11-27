@@ -12,11 +12,11 @@ import SocialsApp from "./components/apps/SocialsApp";
 import AdminCmsApp from "./components/apps/AdminCmsApp";
 
 const APPS = [
-  { id: "visuals", label: "Visuals_TV.app", component: VisualsTvApp, maxWidth: "max-w-xl" },
-  { id: "audio", label: "Audio_Player.exe", component: AudioPlayerApp, maxWidth: "max-w-lg" },
-  { id: "tour", label: "Tour_Dates.txt", component: TourDatesApp, maxWidth: "max-w-lg" },
-  { id: "merch", label: "Merch_Store.pkg", component: MerchStoreApp, maxWidth: "max-w-lg" },
-  { id: "epk", label: "EPK_Bio.doc", component: EpkBioApp, maxWidth: "max-w-lg" },
+  { id: "visuals", label: "Visuals_TV.app", component: VisualsTvApp, maxWidth: "max-w-2xl" },
+  { id: "audio", label: "Audio_Player.exe", component: AudioPlayerApp, maxWidth: "max-w-xl" },
+  { id: "tour", label: "Tour_Dates.txt", component: TourDatesApp, maxWidth: "max-w-xl" },
+  { id: "merch", label: "Merch_Store.pkg", component: MerchStoreApp, maxWidth: "max-w-xl" },
+  { id: "epk", label: "EPK_Bio.doc", component: EpkBioApp, maxWidth: "max-w-xl" },
   { id: "socials", label: "Socials_Links.lnk", component: SocialsApp, maxWidth: "max-w-md" },
 ];
 
@@ -25,22 +25,11 @@ const ALL_APPS_MAP = {
   admin: { id: "admin", label: "Admin_CMS.app", component: AdminCmsApp, maxWidth: "max-w-2xl" },
 };
 
-// Posisi awal jendela di layar desktop agar menyerupai tata letak mockup
-const DEFAULT_OFFSETS = {
-  audio: { x: -250, y: 12 },
-  visuals: { x: 260, y: 0 },
-  tour: { x: -20, y: 295 },
-  merch: { x: 310, y: 310 },
-  epk: { x: -120, y: 90 },
-  socials: { x: 110, y: 110 },
-  admin: { x: 0, y: 20 },
-};
-
 export default function App() {
-  const [openWindows, setOpenWindows] = useState(() => {
-    if (window.location.hash === "#/admin") return ["admin"];
-    return window.innerWidth >= 1024 ? ["audio", "visuals", "tour"] : ["visuals"];
-  });
+  // Hanya buka 1 jendela saat awal: Visuals_TV.app (atau Admin_CMS.app jika lewat #/admin)
+  const [openWindows, setOpenWindows] = useState(() =>
+    window.location.hash === "#/admin" ? ["admin"] : ["visuals"]
+  );
 
   const openApp = (id) => {
     setOpenWindows((prev) => {
@@ -67,7 +56,6 @@ export default function App() {
   }, []);
 
   const topWindowId = openWindows[openWindows.length - 1] || null;
-  const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
 
   return (
     <div className="min-h-screen relative overflow-x-hidden pt-12 pb-10 px-3 sm:px-6 flex flex-col">
@@ -92,14 +80,13 @@ export default function App() {
         </nav>
 
         {/* Area Workspace Jendela Draggable */}
-        <section className="relative w-full min-h-[680px] flex items-start justify-center">
+        <section className="relative w-full min-h-[600px] flex items-start justify-center">
           {openWindows.map((winId, index) => {
             const appDef = ALL_APPS_MAP[winId];
             if (!appDef) return null;
             const WindowComponent = appDef.component;
-            const initialOffset = isDesktop
-              ? DEFAULT_OFFSETS[winId] || { x: index * 20, y: index * 20 }
-              : { x: 0, y: index * 14 };
+            // Jendela pertama pas di tengah; jendela tambahan geser sedikit agar rapi bertumpuk
+            const initialOffset = { x: index * 20, y: index * 20 };
 
             return (
               <div
