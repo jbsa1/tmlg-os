@@ -12,13 +12,11 @@ export const BAND_CONFIG = {
   },
   youtube: {
     apiKey: import.meta.env.VITE_YOUTUBE_API_KEY || "",
-    channelId: import.meta.env.VITE_YOUTUBE_CHANNEL_ID || "UCC66KkyFL58n3D-7dpmjuyg",
+    channelId: import.meta.env.VITE_YOUTUBE_CHANNEL_ID || "",
     channelUrl: "https://youtube.com/@themaryslostgaze",
   },
   sheets: {
-    spreadsheetId:
-      import.meta.env.VITE_SPREADSHEET_ID ||
-      "1VL6e_Qv58UTZqK76rFo-zt_atgO0tkDthQqSWR3vAxc",
+    spreadsheetId: import.meta.env.VITE_SPREADSHEET_ID || "",
     appsScriptUrl: import.meta.env.VITE_APPS_SCRIPT_URL || "",
   },
   socials: [

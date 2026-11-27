@@ -2,6 +2,9 @@
   command = "npm run build"
   publish = "dist"
 
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "VITE_YOUTUBE_API_KEY,VITE_YOUTUBE_CHANNEL_ID,VITE_SPREADSHEET_ID,VITE_APPS_SCRIPT_URL"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
